@@ -1,0 +1,17 @@
+# Installed dependencies
+node_modules/
+**/node_modules/
+
+# Android / Gradle generated files
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+
+# Local IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

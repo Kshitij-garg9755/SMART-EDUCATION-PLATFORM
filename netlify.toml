@@ -1,0 +1,4 @@
+[build]
+  publish = "www"
+
+# This is a plain HTML/CSS/JS site; Netlify serves the files directly.

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Lesson Player</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --fg:#f1f5f9;
+      --card:#1e293b;
+      --accent:#3b82f6;
+      --brand:#22c55e;
+    }
+    body.light {
+      --bg:#f8fafc;
+      --fg:#0f172a;
+      --card:#ffffff;
+      --accent:#2563eb;
+      --brand:#16a34a;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif}
+    body{
+      background:var(--bg);
+      color:var(--fg);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      min-height:100vh;
+      padding:20px;
+      transition:.3s;
+    }
+
+    /* Header */
+    header{
+      width:100%;
+      max-width:900px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+    }
+    header h1{font-size:1.5rem}
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      padding:6px 14px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      transition:.25s;
+    }
+    .btn:hover{opacity:.85}
+
+    /* Centered Content */
+    .main{
+      flex:1;
+      width:100%;
+      max-width:900px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:20px;
+    }
+    .card{
+      background:var(--card);
+      padding:16px;
+      border-radius:16px;
+      width:100%;
+      box-shadow:0 4px 20px rgba(0,0,0,.2);
+      transition:.3s;
+    }
+    
+    .video-wrap video{
+      width:100%;
+      border-radius:12px;
+      box-shadow:0 4px 20px rgba(0,0,0,.3);
+    }
+    .note-area{width:100%;margin-top:10px;display:flex;flex-direction:column;gap:10px}
+    textarea{
+      width:100%;
+      height:150px;
+      border:none;
+      border-radius:12px;
+      padding:10px;
+      background:var(--bg);
+      color:var(--fg);
+      resize:vertical;
+      transition:.3s;
+    }
+    .note-actions{display:flex;gap:10px}
+
+    /* Sidebar */
+    .sidebar{
+      position:fixed;
+      top:0;left:0;
+      width:250px;height:100%;
+      background:var(--card);
+      box-shadow:2px 0 15px rgba(0,0,0,.5);
+      transform:translateX(-100%);
+      transition:.3s;
+      padding:20px;
+      overflow-y:auto;
+      z-index:1000;
+    }
+    .sidebar.open{transform:translateX(0)}
+    .lesson{padding:10px;border-radius:8px;margin-bottom:8px;cursor:pointer;transition:.2s;background:var(--bg)}
+    .lesson.active{background:var(--accent);color:#fff}
+    .lesson.done::after{content:"✓";color:var(--brand);margin-left:6px;font-weight:bold}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;z-index:900}
+    .overlay.show{display:block}
+  </style>
+</head>
+<body>
+  <header>
+    <button class="btn" id="toggleLessons">☰ Lessons</button>
+    <h1>📚 Course Player</h1>
+    <button class="btn" id="themeToggle">🌙</button>
+  </header>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>All Lessons</h2>
+    <div class="lesson" data-id="1" data-title="Intro to HTML" data-src="https://www.w3schools.com/html/mov_bbb.mp4">Intro to HTML</div>
+    <div class="lesson" data-id="2" data-title="CSS Basics" data-src="https://www.w3schools.com/html/movie.mp4">CSS Basics</div>
+    <div class="lesson" data-id="3" data-title="JavaScript Start" data-src="https://www.w3schools.com/html/mov_bbb.mp4">JavaScript Start</div>
+    <div class="lesson" data-id="4" data-title="JavaScript Start" data-src="https://www.w3schools.com/html/mov_bbb.mp4">JavaScript Start</div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="card video-wrap">
+      <video id="video" controls></video>
+    </div>
+    <div class="card note-area">
+      <h2>📝 Notes</h2>
+      <textarea id="notes"></textarea>
+      <div class="note-actions">
+        <button class="btn" id="saveNote">💾 Save</button>
+        <button class="btn" id="exportNotes">⬇ Export</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const video=$('#video'), notes=$('#notes');
+
+function byAttr(el,attr){return el.getAttribute(attr)}
+
+function loadLesson(el){
+  const id=byAttr(el,'data-id');
+  video.src=byAttr(el,'data-src');
+  $$('.lesson').forEach(l=>l.classList.remove('active'));
+  el.classList.add('active');
+  notes.value=localStorage.getItem(`lesson:${id}:notes`)||'';
+  localStorage.setItem('currentLesson',id);
+}
+
+function saveProgress(id,done){
+  localStorage.setItem(`lesson:${id}:done`,done?"1":"0");
+}
+function isDone(id){return localStorage.getItem(`lesson:${id}:done`)==='1'}
+
+function saveNotes(){
+  const cur=$('.lesson.active'); if(!cur) return;
+  const id=byAttr(cur,'data-id');
+  localStorage.setItem(`lesson:${id}:notes`,notes.value);
+  alert("Notes saved!");
+}
+function exportNotes(){
+  const cur=$('.lesson.active'); if(!cur) return;
+  const id=byAttr(cur,'data-id');
+  const blob=new Blob([localStorage.getItem(`lesson:${id}:notes`)||''],{type:"text/plain"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=`notes-${id}.txt`; a.click();
+}
+
+$$('.lesson').forEach(l=>{
+  l.onclick=()=>{ loadLesson(l); closeSidebar(); }
+  if(isDone(byAttr(l,'data-id'))) l.classList.add('done');
+});
+video.onended=()=>{const cur=$('.lesson.active');if(cur){cur.classList.add('done');saveProgress(byAttr(cur,'data-id'),true)}};
+$('#saveNote').onclick=saveNotes;
+$('#exportNotes').onclick=exportNotes;
+
+function openSidebar(){ $('#sidebar').classList.add('open'); $('#overlay').classList.add('show'); }
+function closeSidebar(){ $('#sidebar').classList.remove('open'); $('#overlay').classList.remove('show'); }
+$('#toggleLessons').onclick=openSidebar; $('#overlay').onclick=closeSidebar;
+
+const last=localStorage.getItem('currentLesson');
+if(last){const l=document.querySelector(`.lesson[data-id="${last}"]`); if(l) loadLesson(l);}
+
+$('#themeToggle').onclick=()=>{
+  document.body.classList.toggle('light');
+  localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+  $('#themeToggle').textContent=document.body.classList.contains('light')?"🌞":"🌙";
+};
+if(localStorage.getItem('theme')==='light'){
+  document.body.classList.add('light');
+  $('#themeToggle').textContent="🌞";
+}
+</script>
+</body>
+</html>

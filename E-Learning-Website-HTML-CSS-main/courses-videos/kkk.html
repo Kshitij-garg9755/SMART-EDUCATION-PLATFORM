@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>3D Cartoon Character</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --skin-light:#ffd9b3;
+    --skin-dark:#e6a96f;
+    --hair:#22223b;
+    --shirt1:#6a5acd;
+    --shirt2:#4a3eb1;
+    --shadow: rgba(0,0,0,0.6);
+  }
+
+  body{
+    margin:0;
+    height:100vh;
+    background: radial-gradient(circle at top, #1b2735, #090a0f);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+  }
+
+  .stage{
+    perspective:1000px;
+  }
+
+  .card{
+    width:320px;
+    height:480px;
+    background:linear-gradient(180deg,#ffffff08,#ffffff05);
+    border-radius:20px;
+    box-shadow:0 20px 50px var(--shadow);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transform-style:preserve-3d;
+    transition:transform .2s ease;
+    position:relative;
+  }
+
+  /* Character base */
+  .char{
+    width:220px;
+    height:360px;
+    transform-style:preserve-3d;
+    animation:breathe 4s ease-in-out infinite;
+    position:relative;
+  }
+
+  /* Head */
+  .head{
+    width:150px;
+    height:150px;
+    background:linear-gradient(180deg,var(--skin-light),var(--skin-dark));
+    border-radius:50%;
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%) translateZ(40px);
+    box-shadow: inset 0 -8px 12px rgba(0,0,0,0.15);
+  }
+
+  /* Hair */
+  .hair{
+    width:160px;
+    height:80px;
+    background:var(--hair);
+    border-radius:60% 60% 40% 40%;
+    position:absolute;
+    top:-10px;
+    left:50%;
+    transform:translateX(-50%);
+    box-shadow:0 6px 12px rgba(0,0,0,0.5);
+  }
+
+  /* Eyes */
+  .eye{
+    width:26px;
+    height:18px;
+    background:#fff;
+    border-radius:50%;
+    position:absolute;
+    top:60px;
+    overflow:hidden;
+    animation:blink 4s infinite;
+  }
+  .eye::after{
+    content:"";
+    width:10px;
+    height:10px;
+    background:#111;
+    border-radius:50%;
+    position:absolute;
+    top:4px;
+    left:8px;
+  }
+  .eye.left{ left:45px; }
+  .eye.right{ right:45px; }
+
+  /* Mouth */
+  .mouth{
+    width:50px;
+    height:25px;
+    background:linear-gradient(180deg,#ff8a80,#e85c5c);
+    border-radius:0 0 50% 50%;
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+  }
+
+  /* Body */
+  .torso{
+    width:160px;
+    height:180px;
+    background:linear-gradient(180deg,var(--shirt1),var(--shirt2));
+    border-radius:20px;
+    position:absolute;
+    top:160px;
+    left:50%;
+    transform:translateX(-50%) translateZ(20px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.4);
+  }
+
+  /* Arms */
+  .arm{
+    width:40px;
+    height:100px;
+    background:linear-gradient(180deg,var(--shirt1),var(--shirt2));
+    border-radius:20px;
+    position:absolute;
+    top:180px;
+  }
+  .arm.left{ left:-30px; transform:rotate(10deg); }
+  .arm.right{ right:-30px; transform:rotate(-10deg); }
+
+  /* Legs */
+  .leg{
+    width:50px;
+    height:120px;
+    background:linear-gradient(180deg,#333,#111);
+    border-radius:20px;
+    position:absolute;
+    bottom:0;
+  }
+  .leg.left{ left:40px; }
+  .leg.right{ right:40px; }
+
+  /* Shadow */
+  .shadow{
+    width:200px;
+    height:40px;
+    background:radial-gradient(ellipse,rgba(0,0,0,0.4),transparent 70%);
+    border-radius:50%;
+    position:absolute;
+    bottom:-20px;
+    left:50%;
+    transform:translateX(-50%);
+    filter:blur(8px);
+  }
+
+  /* Animations */
+  @keyframes breathe {
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-8px); }
+  }
+
+  @keyframes blink {
+    0%,90%,100%{ height:18px; }
+    92%,98%{ height:2px; }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="card" id="card">
+      <div class="char">
+        <div class="head">
+          <div class="hair"></div>
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+          <div class="mouth"></div>
+        </div>
+        <div class="torso"></div>
+        <div class="arm left"></div>
+        <div class="arm right"></div>
+        <div class="leg left"></div>
+        <div class="leg right"></div>
+        <div class="shadow"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  /* Mouse move 3D tilt */
+  const card = document.getElementById("card");
+  document.addEventListener("mousemove", (e)=>{
+    let x = (window.innerWidth/2 - e.pageX) / 25;
+    let y = (window.innerHeight/2 - e.pageY) / 25;
+    card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+  });
+</script>
+</body>
+</html>
