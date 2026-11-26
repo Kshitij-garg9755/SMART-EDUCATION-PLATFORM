@@ -1,7 +1,8 @@
 # Live deployment: Netlify + Render
 
-The site uses Netlify for the static frontend and Render for Flask, Socket.IO,
-PostgreSQL, and persistent uploads. `www/` is the Netlify publish directory.
+The site uses Netlify for the static frontend, Render for Flask and Socket.IO, and Neon
+for PostgreSQL. Uploaded files on the free Render service are ephemeral.
+`www/` is the Netlify publish directory.
 
 ## 1. Push the project to GitHub
 

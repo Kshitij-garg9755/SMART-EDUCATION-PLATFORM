@@ -6,9 +6,9 @@ Kshitij Coder is a responsive Flask and HTML/CSS/JavaScript e-learning platform.
 
 `E-Learning-Website-HTML-CSS-main/` is the source frontend. `www/` is synchronized from it for Netlify and Capacitor and must not be edited independently.
 
-For the live Netlify + Render setup, follow [NETLIFY.md](NETLIFY.md). It covers the
-frontend proxy, Flask/Socket.IO service, Render PostgreSQL, persistent uploads, and the
-private environment variables required to launch.
+For the live Netlify + Render + Neon setup, follow [NETLIFY.md](NETLIFY.md). It covers the
+frontend proxy, Flask/Socket.IO service, persistent PostgreSQL, free-tier file-storage
+limitations, and the private environment variables required to launch.
 
 ```powershell
 Copy-Item -Path "E-Learning-Website-HTML-CSS-main\*" -Destination "www" -Recurse -Force
