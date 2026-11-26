@@ -4,7 +4,7 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: flask --app backend.app db upgrade && flask --app backend.app seed-courses && gunicorn --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker --workers 1 --bind 0.0.0.0:$PORT backend.app:app
+    startCommand: flask --app backend.app db upgrade && flask --app backend.app seed-courses && flask --app backend.app create-admin && gunicorn --worker-class geventwebsocket.gunicorn.workers.GeventWebSocketWorker --workers 1 --bind 0.0.0.0:$PORT backend.app:app
     healthCheckPath: /api/health
     envVars:
       - key: FLASK_DEBUG
