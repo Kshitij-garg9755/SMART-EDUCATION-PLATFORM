@@ -22,17 +22,24 @@ The build writes same-origin `/api/*` and `/socket.io/*` proxy rules to the gene
 `www/_redirects`. Browser requests stay on the Netlify site URL, so the login session
 cookie is first-party while the Netlify edge forwards API and Socket.IO traffic to Render.
 
-## 3. Create Render services
+## 3. Configure the Render service and persistent database
 
-In Render, create a Blueprint from the same GitHub repository and select the root
-`render.yaml`. It provisions the Flask web service, PostgreSQL database, and a persistent
-uploads disk. The service runs database migrations at startup and exposes `/api/health`
-as its health check.
+The Flask service can use PostgreSQL through `DATABASE_URL`; SQLite is only suitable for
+local development. Render free web services have an ephemeral filesystem, so SQLite data
+can disappear after a restart or redeploy. Create a PostgreSQL database with a provider
+such as Neon, then add its connection string as the private `DATABASE_URL` environment
+variable in Render. Never commit or share the connection string.
 
-Set `CORS_ORIGINS` to the exact Netlify origin, including `https://` and no trailing
-slash (for example `https://your-site.netlify.app`). Add a custom frontend domain here too
-if you use one. After the Render service is ready, copy its `https://...onrender.com`
-origin into Netlify's `RENDER_API_URL` and redeploy the site.
+Set `REQUIRE_DATABASE_URL=true` in Render as well. This makes the service fail at startup
+instead of silently accepting student registrations into temporary SQLite storage when
+the database URL is missing or points to SQLite. The root `render.yaml` declares both
+variables; for an already-created manual Render service, add them in its Environment
+settings yourself. The startup command applies database migrations.
+
+Set `CORS_ORIGINS` to the exact Netlify origin, including `https://` and no trailing slash
+(for example `https://your-site.netlify.app`). Add a custom frontend domain here too if you
+use one. After the Render service is ready, copy its `https://...onrender.com` origin into
+Netlify's `RENDER_API_URL` and redeploy the site.
 
 Do not change `SESSION_COOKIE_SECURE=true` or `SESSION_SAMESITE=Lax`; the frontend uses
 the same-origin Netlify proxy for authenticated API requests and chat.
@@ -67,7 +74,8 @@ must only be set in Render's private environment, never in frontend files.
 
 ## Persistence and availability
 
-The Blueprint uses a paid Render web plan because the service needs a persistent disk for
-uploaded videos, notes, attachments, and payment proofs. The Render database is separate
-and durable. Render's free web services can sleep and its free PostgreSQL database expires,
-so they are not suitable for a continuously available production site.
+PostgreSQL keeps student accounts, enrollments, lesson progress, payments, and chat data
+across web-service restarts. Uploaded videos, notes, attachments, and payment proofs are
+stored on the web service filesystem by default; on a free Render web service those files
+are ephemeral and need a separate persistent disk or object-storage setup. Free web
+services can also sleep while idle, which may delay the first request.

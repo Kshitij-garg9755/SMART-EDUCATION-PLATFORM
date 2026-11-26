@@ -492,6 +492,11 @@ def create_app(test_config=None):
     )
     if test_config:
         app.config.update(test_config)
+    if (os.getenv("REQUIRE_DATABASE_URL", "false").strip().lower() == "true" and
+            app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite:")):
+        raise RuntimeError(
+            "REQUIRE_DATABASE_URL is enabled; configure DATABASE_URL with a persistent database."
+        )
     app.config["UPI_GATEWAY_ENVIRONMENT"] = str(
         app.config["UPI_GATEWAY_ENVIRONMENT"]
     ).strip().lower()

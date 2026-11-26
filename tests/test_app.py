@@ -53,6 +53,17 @@ def test_health_and_static_startup(client):
     assert client.get("/courses-videos/videos.html").status_code == 200
 
 
+def test_required_database_url_rejects_sqlite(monkeypatch):
+    monkeypatch.setenv("REQUIRE_DATABASE_URL", "true")
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+
+    with pytest.raises(RuntimeError, match="persistent database"):
+        create_app({
+            "TESTING": True,
+            "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
+        })
+
+
 def test_signup_duplicate_and_login(client):
     first = signup(client)
     assert first.status_code == 201
