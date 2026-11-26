@@ -1,4 +1,6 @@
 [build]
+  command = "node scripts/configure-netlify.js"
   publish = "www"
 
-# This is a plain HTML/CSS/JS site; Netlify serves the files directly.
+# The build script writes API and Socket.IO proxy rules to www/_redirects.
+# Set RENDER_API_URL in Netlify (for example, https://your-api.onrender.com).

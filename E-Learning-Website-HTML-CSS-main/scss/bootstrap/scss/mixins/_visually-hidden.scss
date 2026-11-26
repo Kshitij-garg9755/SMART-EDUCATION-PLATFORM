@@ -1,4 +1,4 @@
-// stylelint-disable declaration-no-important
+﻿// stylelint-disable declaration-no-important
 
 // Hide content visually while keeping it accessible to assistive technologies
 //
@@ -27,3 +27,4 @@
     @include visually-hidden();
   }
 }
+

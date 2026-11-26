@@ -1,4 +1,4 @@
-.toast {
+﻿.toast {
   width: $toast-max-width;
   max-width: 100%;
   @include font-size($toast-font-size);
@@ -49,3 +49,4 @@
   padding: $toast-padding-x; // apply to both vertical and horizontal
   word-wrap: break-word;
 }
+

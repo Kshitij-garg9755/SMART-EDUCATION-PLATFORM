@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <title>Kshitij Coder : Student Dashboard</title>
+    <link href="img/icon.png" rel="icon">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+</head>
+<body class="student-dashboard">
+    <header class="dashboard-navbar">
+        <nav class="dashboard-nav-inner" aria-label="Main navigation">
+            <a class="dashboard-brand" href="index.html">
+                <span class="dashboard-brand-mark" aria-hidden="true">KC</span>
+                <span>Kshitij <strong>Coder</strong></span>
+            </a>
+            <div class="dashboard-nav-actions">
+                <a class="dashboard-chat-link" href="chat.html">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.2-4.1A8 8 0 1 1 20 11.5Z"/></svg>
+                    <span>KHITIJ CHAT</span>
+                </a>
+                <button id="logout" class="dashboard-logout" type="button">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3m9-8h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6"/></svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-main">
+        <section class="dashboard-hero" aria-labelledby="dashboard-title">
+            <div class="dashboard-hero-copy">
+                <p class="dashboard-eyebrow">YOUR LEARNING SPACE</p>
+                <h1 id="dashboard-title">Welcome back, <span id="dashboard-name">Learner</span></h1>
+                <p class="dashboard-hero-text">Small steps every day lead to big achievements. Pick up where you left off.</p>
+                <div class="dashboard-hero-actions">
+                    <a class="dashboard-primary-link" href="courses.html">Explore courses <span aria-hidden="true">→</span></a>
+                    <a class="dashboard-secondary-link" href="#support">Get help</a>
+                </div>
+            </div>
+            <div class="dashboard-hero-art" aria-hidden="true">
+                <div class="hero-orbit hero-orbit-one"></div>
+                <div class="hero-orbit hero-orbit-two"></div>
+                <div class="hero-learning-card">
+                    <span class="hero-learning-icon">✦</span>
+                    <span class="hero-learning-label">KEEP LEARNING</span>
+                    <strong>Your next skill<br>starts here.</strong>
+                    <span class="hero-learning-line"><i></i></span>
+                </div>
+                <span class="hero-spark hero-spark-one">✦</span>
+                <span class="hero-spark hero-spark-two">✧</span>
+            </div>
+        </section>
+
+        <section class="dashboard-overview" aria-label="Your learning overview">
+            <div class="dashboard-profile">
+                <span class="dashboard-avatar" aria-hidden="true">KC</span>
+                <div class="dashboard-profile-copy">
+                    <span class="dashboard-profile-label">SIGNED IN AS</span>
+                    <strong id="profile-name">Student</strong>
+                    <span id="profile-email"></span>
+                </div>
+            </div>
+            <div class="dashboard-stat">
+                <span class="dashboard-stat-icon stat-icon-orange" aria-hidden="true">▤</span>
+                <div><strong id="dashboard-course-count">0</strong><span>Enrolled courses</span></div>
+            </div>
+            <div class="dashboard-stat">
+                <span class="dashboard-stat-icon stat-icon-purple" aria-hidden="true">◇</span>
+                <div><strong id="dashboard-certificate-count">0</strong><span>Certificates</span></div>
+            </div>
+            <div class="dashboard-stat">
+                <span class="dashboard-stat-icon stat-icon-green" aria-hidden="true">↗</span>
+                <div><strong id="dashboard-progress">0%</strong><span>Average progress</span></div>
+            </div>
+        </section>
+
+        <section class="dashboard-section" id="my-courses" aria-labelledby="courses-title">
+            <div class="dashboard-section-heading">
+                <div>
+                    <p class="dashboard-eyebrow">YOUR CLASSROOM</p>
+                    <h2 id="courses-title">My courses</h2>
+                    <p>Continue learning and track your progress.</p>
+                </div>
+                <a class="dashboard-section-link" href="courses.html">Browse all courses <span aria-hidden="true">→</span></a>
+            </div>
+            <div id="courses" class="row dashboard-course-grid"></div>
+        </section>
+
+        <section class="dashboard-section" id="certificates-section" aria-labelledby="certificates-title">
+            <div class="dashboard-section-heading">
+                <div>
+                    <p class="dashboard-eyebrow">YOUR ACHIEVEMENTS</p>
+                    <h2 id="certificates-title">Certificates</h2>
+                    <p>Milestones you have earned on your learning journey.</p>
+                </div>
+            </div>
+            <div id="certificates" class="dashboard-certificates"></div>
+        </section>
+
+        <section class="dashboard-section" id="payments" aria-labelledby="payments-title">
+            <div class="dashboard-section-heading">
+                <div>
+                    <p class="dashboard-eyebrow">SIMPLE & SECURE</p>
+                    <h2 id="payments-title">Course payments</h2>
+                    <p>Pay instantly with UPI or submit a reference for administrator review.</p>
+                </div>
+            </div>
+            <div class="card dashboard-panel">
+                <div class="card-body">
+                    <div class="dashboard-panel-intro">
+                        <span class="dashboard-panel-icon payment-icon" aria-hidden="true">₹</span>
+                        <p id="payment-instructions">Choose a paid course for instant UPI checkout, or submit a manual payment reference for administrator review.</p>
+                    </div>
+                    <form id="upi-checkout-form" class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <label class="form-label" for="upi-payment-course">Course for UPI checkout</label>
+                            <select class="form-select" id="upi-payment-course" required></select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="dashboard-submit w-100" type="submit">Continue to UPI payment <span aria-hidden="true">→</span></button>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-danger small mb-0" id="upi-payment-error" role="alert"></p>
+                        </div>
+                    </form>
+                    <form id="manual-payment-form" class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="payment-course">Paid course</label>
+                            <select class="form-select" id="payment-course" name="course_id" required></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="payment-method">Payment method</label>
+                            <select class="form-select" id="payment-method" name="payment_method" required>
+                                <option value="upi">UPI</option>
+                                <option value="bank_transfer">Bank transfer</option>
+                                <option value="cash">Cash</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="payment-reference">Payment reference</label>
+                            <input class="form-control" id="payment-reference" name="transaction_id" maxlength="255" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="payment-proof">Payment proof <span class="dashboard-label-hint">Optional · PNG, JPG or PDF</span></label>
+                            <input class="form-control" id="payment-proof" name="proof" type="file" accept=".png,.jpg,.jpeg,.pdf">
+                        </div>
+                        <div class="col-12 dashboard-form-actions">
+                            <button class="dashboard-submit" type="submit">Submit for review <span aria-hidden="true">→</span></button>
+                            <p class="text-danger small mb-0" id="payment-error" role="alert"></p>
+                        </div>
+                    </form>
+                    <div class="dashboard-history">
+                        <h3>Payment history</h3>
+                        <div id="payment-history"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-section" id="support" aria-labelledby="support-title">
+            <div class="dashboard-section-heading">
+                <div>
+                    <p class="dashboard-eyebrow">WE'RE HERE TO HELP</p>
+                    <h2 id="support-title">Student support</h2>
+                    <p>Send our team a message or follow up on an existing request.</p>
+                </div>
+            </div>
+            <div class="row dashboard-support-grid">
+                <div class="col-lg-4">
+                    <div class="card dashboard-panel h-100">
+                        <div class="card-body">
+                            <div class="dashboard-card-heading">
+                                <span class="dashboard-panel-icon support-icon" aria-hidden="true">?</span>
+                                <div><h3>New request</h3><p>Tell us what you need help with.</p></div>
+                            </div>
+                            <form id="support-ticket-form">
+                                <label class="form-label" for="support-subject">Subject</label>
+                                <input class="form-control mb-3" id="support-subject" maxlength="200" placeholder="e.g. Help with my course" required>
+                                <label class="form-label" for="support-first-message">Message</label>
+                                <textarea class="form-control mb-3" id="support-first-message" rows="4" maxlength="4000" placeholder="Describe how we can help..." required></textarea>
+                                <button class="dashboard-submit" type="submit">Create request <span aria-hidden="true">→</span></button>
+                            </form>
+                            <div class="dashboard-ticket-list-wrap">
+                                <h4>Your requests</h4>
+                                <div id="support-ticket-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card dashboard-panel dashboard-conversation-panel h-100">
+                        <div class="card-body">
+                            <div class="dashboard-card-heading conversation-heading">
+                                <span class="dashboard-panel-icon conversation-icon" aria-hidden="true">✉</span>
+                                <div>
+                                    <h3 id="support-conversation-title">Your conversation</h3>
+                                    <p>Replies from the Kshitij Coder support team appear here.</p>
+                                </div>
+                            </div>
+                            <div class="dashboard-conversation" id="support-conversation" aria-live="polite">
+                                <div class="dashboard-conversation-empty">
+                                    <span aria-hidden="true">✉</span>
+                                    <p>Create or select a support request to view messages.</p>
+                                </div>
+                            </div>
+                            <form id="support-reply-form">
+                                <div class="dashboard-reply-row">
+                                    <textarea class="form-control" id="support-reply" name="message" rows="2" maxlength="4000" placeholder="Write a message..." required disabled></textarea>
+                                    <button class="dashboard-submit dashboard-send-button" type="submit" disabled>Send <span aria-hidden="true">↑</span></button>
+                                </div>
+                                <label class="dashboard-attachment" for="support-attachment">
+                                    <span aria-hidden="true">＋</span> Attach a file
+                                </label>
+                                <input class="dashboard-file-input" id="support-attachment" name="file" type="file" accept=".png,.jpg,.jpeg,.pdf,.txt" disabled>
+                            </form>
+                            <p class="small text-danger mt-2 mb-0" id="support-error" role="alert"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
+    <script src="js/student-payments.js"></script>
+    <script src="js/student-support.js"></script>
+    <script>
+    KCAPI.api('/api/dashboard').then(function (data) {
+        var fullName = data.user.full_name || 'Learner';
+        var firstName = fullName.trim().split(/\s+/)[0] || 'Learner';
+        document.getElementById('dashboard-name').textContent = firstName;
+        document.getElementById('profile-name').textContent = fullName;
+        document.getElementById('profile-email').textContent = data.user.email || '';
+        document.getElementById('dashboard-course-count').textContent = data.courses.length;
+        document.getElementById('dashboard-certificate-count').textContent = data.certificates.length;
+        var averageProgress = data.courses.length ? Math.round(data.courses.reduce(function (total, item) {
+            return total + Number(item.progress || 0);
+        }, 0) / data.courses.length) : 0;
+        document.getElementById('dashboard-progress').textContent = averageProgress + '%';
+        document.getElementById('courses').innerHTML = data.courses.length ? data.courses.map(function (item) {
+            return '<div class="col-md-4"><div class="card h-100 shadow-sm"><div class="card-body"><h5>' +
+                escapeHtml(item.course.title) + '</h5><div class="progress mb-2"><div class="progress-bar" style="width:' +
+                item.progress + '%">' + item.progress + '%</div></div><small>' + item.completed_lessons +
+                ' of ' + item.total_lessons + ' lessons completed</small></div></div></div>';
+        }).join('') : '<div class="col-12"><div class="dashboard-empty-state"><span aria-hidden="true">▤</span><strong>Your learning journey starts here</strong><p>Explore the course library and enroll in your first course.</p><a href="courses.html">Browse courses <span aria-hidden="true">→</span></a></div></div>';
+        document.getElementById('certificates').innerHTML = data.certificates.length ? data.certificates.map(function (c) {
+            return '<div class="alert alert-success">Certificate ' + escapeHtml(c.certificate_number) +
+                ' - Verification: ' + escapeHtml(c.verification_code) + '</div>';
+        }).join('') : '<div class="dashboard-empty-state dashboard-certificate-empty"><span aria-hidden="true">◇</span><strong>Your achievements will appear here</strong><p>Complete a course to earn your first certificate.</p></div>';
+    }).catch(function () { window.location.href = 'login.html'; });
+    document.getElementById('logout').addEventListener('click', async function () {
+        try { await KCAPI.api('/api/auth/logout', {method: 'POST', body: '{}'}); } catch (_) {}
+        window.location.href = 'login.html';
+    });
+    function escapeHtml(value) {
+        var div = document.createElement('div');
+        div.textContent = value;
+        return div.innerHTML;
+    }
+    </script>
+    <script src="js/chat-widget.js"></script>
+</body>
+</html>

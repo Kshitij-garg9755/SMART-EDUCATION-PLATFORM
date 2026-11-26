@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /******* Customized Bootstrap ********/
 /*!
  * Bootstrap v5.0.0 (https://getbootstrap.com/)
@@ -561,7 +561,7 @@ progress {
   color: #6c757d;
 }
 .blockquote-footer::before {
-  content: "— ";
+  content: "â€”Â ";
 }
 
 .img-fluid {
@@ -10491,3 +10491,4 @@ textarea.form-control-lg {
     display: none !important;
   }
 }/*# sourceMappingURL=bootstrap.css.map */
+

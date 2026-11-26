@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kshitij Coder | Administration</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/admin.css" rel="stylesheet">
+</head>
+<body class="admin-body">
+    <header class="admin-topbar">
+        <a class="admin-brand" href="/">KHITIJ <span>CODER</span><small>ADMINISTRATION</small></a>
+        <div class="d-flex align-items-center gap-3">
+            <span class="admin-user" id="admin-user">Loading account...</span>
+            <button class="btn btn-sm btn-outline-light" id="admin-logout" type="button">Sign out</button>
+        </div>
+    </header>
+    <div class="admin-layout">
+        <aside class="admin-sidebar" aria-label="Administration modules">
+            <button class="admin-nav active" data-view="dashboard">Overview</button>
+            <button class="admin-nav" data-view="students" data-permission="students.read">Students</button>
+            <button class="admin-nav" data-view="courses" data-permission="courses.read">Courses</button>
+            <button class="admin-nav" data-view="categories" data-permission="courses.read">Categories</button>
+            <button class="admin-nav" data-view="lessons" data-permission="lessons.manage">Lessons &amp; videos</button>
+            <button class="admin-nav" data-view="notes" data-permission="notes.manage">Study notes</button>
+            <button class="admin-nav" data-view="payments" data-permission="payments.read">Payments</button>
+            <button class="admin-nav" data-view="enrollments" data-permission="enrollments.read">Enrollments</button>
+            <button class="admin-nav" data-view="certificates" data-permission="certificates.read">Certificates</button>
+            <button class="admin-nav" data-view="activity" data-permission="activity.read">Student activity</button>
+            <button class="admin-nav" data-view="support" data-permission="support.read">Student support</button>
+            <a class="admin-nav" href="chat.html" data-permission="support.read">Direct student chat</a>
+            <button class="admin-nav" data-view="reviews" data-permission="reviews.manage">Reviews</button>
+            <button class="admin-nav" data-view="announcements" data-permission="announcements.manage">Announcements</button>
+            <button class="admin-nav" data-view="content" data-permission="content.manage">Website content</button>
+            <button class="admin-nav" data-view="reports" data-permission="reports.read">Reports</button>
+            <button class="admin-nav" data-view="admins" data-super-admin="true">Admins &amp; roles</button>
+            <button class="admin-nav" data-view="audit" data-super-admin="true">Audit log</button>
+            <button class="admin-nav" data-view="settings" data-permission="settings.manage">Settings</button>
+            <a class="admin-back-link" href="/">← Back to website</a>
+        </aside>
+        <main class="admin-main">
+            <div id="admin-alert" class="alert d-none" role="status"></div>
+            <section class="admin-view" id="view-dashboard">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">CONTROL CENTER</p><h1>Platform overview</h1></div></div>
+                <div class="row g-3" id="dashboard-stats"></div>
+                <div class="admin-card mt-4"><div class="admin-card-heading"><h2>Recent registrations</h2><button class="btn btn-sm btn-outline-primary" data-open-view="students">View students</button></div><div id="recent-students"></div></div>
+            </section>
+            <section class="admin-view d-none" id="view-students">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">LEARNER MANAGEMENT</p><h1>Students</h1></div></div>
+                <div class="admin-card"><div class="admin-toolbar"><input class="form-control" id="student-search" placeholder="Search name or email"><button class="btn btn-primary" id="student-search-button">Search</button></div><div id="students-table"></div></div>
+            </section>
+            <section class="admin-view d-none" id="view-courses">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">LEARNING CATALOG</p><h1>Courses</h1></div></div>
+                <div class="admin-card"><div class="admin-card-heading"><h2>Published and draft courses</h2><button class="btn btn-primary btn-sm" id="create-course-button">Create course</button></div><div id="courses-table"></div></div>
+            </section>
+            <section class="admin-view d-none" id="view-categories">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">LEARNING CATALOG</p><h1>Course categories</h1></div></div>
+                <div class="admin-card mb-3"><form id="category-form" class="row g-2"><div class="col-md-4"><input class="form-control" name="name" placeholder="Category name" required maxlength="100"></div><div class="col-md-6"><input class="form-control" name="description" placeholder="Description" maxlength="500"></div><div class="col-md-2"><button class="btn btn-primary w-100">Add category</button></div></form></div>
+                <div class="admin-card" id="categories-table"></div>
+            </section>
+            <section class="admin-view d-none" id="view-lessons">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">COURSE CONTENT</p><h1>Lessons &amp; videos</h1></div></div>
+                <div class="admin-card mb-3"><div class="admin-toolbar"><select class="form-select" id="lesson-course"></select><button class="btn btn-primary" id="lesson-course-load">Load lessons</button></div><form id="lesson-form" class="row g-2"><div class="col-md-4"><input class="form-control" name="title" placeholder="Lesson title" required maxlength="200"></div><div class="col-md-4"><input class="form-control" name="description" placeholder="Description"></div><div class="col-md-2"><input class="form-control" name="duration" placeholder="Duration"></div><div class="col-md-2"><input class="form-control" name="lesson_order" type="number" min="1" placeholder="Order"></div><div class="col-md-8"><input class="form-control" name="video_url" placeholder="Optional HTTPS video URL"></div><div class="col-md-2 form-check ms-2"><input class="form-check-input" name="is_preview" type="checkbox"><label class="form-check-label">Preview</label></div><div class="col-md-1"><button class="btn btn-primary">Add</button></div></form></div>
+                <div class="admin-card" id="lessons-table"></div>
+            </section>
+            <section class="admin-view d-none" id="view-notes">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">COURSE MATERIALS</p><h1>Study notes</h1></div></div>
+                <div class="admin-card mb-3"><form id="note-form" class="row g-2"><div class="col-md-3"><select class="form-select" name="course_id" id="note-course" required></select></div><div class="col-md-3"><input class="form-control" name="title" placeholder="Note title" required maxlength="200"></div><div class="col-md-3"><input class="form-control" name="description" placeholder="Description" maxlength="1000"></div><div class="col-md-2"><input class="form-control" name="file" type="file" accept=".pdf" required></div><div class="col-md-1 form-check"><input class="form-check-input" name="is_published" type="checkbox"><label class="form-check-label">Publish</label></div><div class="col-12"><button class="btn btn-primary">Upload PDF</button></div></form></div>
+                <div class="admin-card" id="notes-table"></div>
+            </section>
+            <section class="admin-view d-none" id="view-payments">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">FINANCE</p><h1>Payments</h1></div></div>
+                <div class="admin-card">
+                    <div class="admin-toolbar">
+                        <select class="form-select" id="payment-status"><option value="">All statuses</option><option>pending</option><option>processing</option><option>under_review</option><option>expired</option><option>approved</option><option>rejected</option><option>captured</option><option>failed</option></select>
+                        <select class="form-select" id="payment-environment"><option value="">All environments</option><option value="live">Live</option><option value="sandbox">Sandbox</option></select>
+                        <input class="form-control" id="payment-search" type="search" placeholder="Student or gateway order">
+                        <button class="btn btn-primary" id="payments-refresh">Refresh</button>
+                    </div>
+                    <div id="payments-table"></div>
+                    <h2 class="h5 mt-4">UPI gateway processing history</h2>
+                    <div id="payment-events-table"></div>
+                    <div id="payment-detail-events"></div>
+                </div>
+            </section>
+            <section class="admin-view d-none" id="view-enrollments">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">COURSE ACCESS</p><h1>Enrollments</h1></div><button class="btn btn-primary" id="grant-enrollment">Grant access</button></div>
+                <div class="admin-card"><div id="enrollments-table"></div></div>
+            </section>
+            <section class="admin-view d-none" id="view-certificates">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">LEARNER ACHIEVEMENTS</p><h1>Certificates</h1></div></div>
+                <div class="admin-card" id="certificates-table"></div>
+            </section>
+            <section class="admin-view d-none" id="view-activity">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">LEARNER ACTIVITY</p><h1>Student activity</h1></div></div>
+                <div class="admin-card" id="activity-table"></div>
+            </section>
+            <section class="admin-view d-none" id="view-support">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">STUDENT HELPLINE</p><h1>Support inbox</h1></div><button class="btn btn-outline-primary" id="support-refresh">Refresh</button></div>
+                <div class="support-layout"><div class="admin-card" id="support-list"></div><div class="admin-card" id="support-detail"><p class="text-muted mb-0">Select a support conversation.</p></div></div>
+            </section>
+            <section class="admin-view d-none" id="view-reviews">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">COMMUNITY</p><h1>Course reviews</h1></div></div>
+                <div class="admin-card" id="reviews-table"></div>
+            </section>
+            <section class="admin-view d-none" id="view-announcements">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">SITE UPDATES</p><h1>Announcements</h1></div></div>
+                <div class="admin-card mb-3"><form id="announcement-form"><div class="mb-3"><label class="form-label" for="announcement-title">Title</label><input class="form-control" id="announcement-title" maxlength="200" required></div><div class="mb-3"><label class="form-label" for="announcement-content">Message</label><textarea class="form-control" id="announcement-content" rows="3" maxlength="5000" required></textarea></div><label class="form-check mb-3"><input class="form-check-input" id="announcement-published" type="checkbox"><span class="form-check-label">Publish immediately</span></label><button class="btn btn-primary">Create announcement</button></form></div>
+                <div class="admin-card" id="announcements-list"></div>
+            </section>
+            <section class="admin-view d-none" id="view-content">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">PUBLIC WEBSITE</p><h1>Website content</h1></div></div>
+                <div class="admin-card"><p class="text-muted">Update approved text fields shown on the public website. HTML and scripts are not accepted.</p><div id="content-fields"></div></div>
+            </section>
+            <section class="admin-view d-none" id="view-reports">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">PERFORMANCE</p><h1>Reports</h1></div></div>
+                <div class="admin-card"><div class="admin-toolbar"><select class="form-select" id="report-range"><option value="7d">Last 7 days</option><option value="30d" selected>Last 30 days</option><option value="this_month">This month</option><option value="today">Today</option></select><button class="btn btn-primary" id="reports-refresh">Run report</button></div><div id="report-results"></div><div class="d-flex flex-wrap gap-2 mt-3"><a class="btn btn-outline-primary btn-sm" href="/api/admin/reports/export.csv?type=students">Export students CSV</a><a class="btn btn-outline-primary btn-sm" href="/api/admin/reports/export.csv?type=payments">Export payments CSV</a><a class="btn btn-outline-primary btn-sm" href="/api/admin/reports/export.csv?type=enrollments">Export enrollments CSV</a></div></div>
+            </section>
+            <section class="admin-view d-none" id="view-admins">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">ACCESS CONTROL</p><h1>Admins &amp; roles</h1></div></div>
+                <div class="admin-card mb-3"><h2>Create administrator account</h2><form id="admin-create-form" class="row g-2"><div class="col-md-3"><input class="form-control" name="full_name" placeholder="Full name" required></div><div class="col-md-3"><input class="form-control" name="email" type="email" placeholder="Email" required></div><div class="col-md-3"><input class="form-control" name="password" type="password" minlength="12" placeholder="Temporary password (12+)" required></div><div class="col-md-2"><select class="form-select" name="admin_role_id" id="admin-role-select" required></select></div><div class="col-md-1"><button class="btn btn-primary w-100">Add</button></div></form></div>
+                <div class="admin-card mb-3"><h2>Create role</h2><form id="role-create-form" class="row g-2"><div class="col-md-3"><input class="form-control" name="name" placeholder="Role name" required></div><div class="col-md-5"><input class="form-control" name="description" placeholder="Description"></div><div class="col-md-3"><select class="form-select" name="permissions" id="role-permissions" multiple aria-label="Role permissions"></select></div><div class="col-md-1"><button class="btn btn-outline-primary w-100">Add</button></div></form></div>
+                <div class="admin-card" id="admins-table"></div>
+                <div class="admin-card mt-3" id="roles-table"></div>
+            </section>
+            <section class="admin-view d-none" id="view-audit">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">ACCOUNTABILITY</p><h1>Audit log</h1></div></div>
+                <div class="admin-card" id="audit-table"></div>
+            </section>
+            <section class="admin-view d-none" id="view-settings">
+                <div class="admin-page-heading"><div><p class="admin-eyebrow">PLATFORM CONFIGURATION</p><h1>Settings</h1></div></div>
+                <div class="admin-card" id="settings-details"></div>
+            </section>
+        </main>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

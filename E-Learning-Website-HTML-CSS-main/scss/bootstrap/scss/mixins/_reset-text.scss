@@ -1,4 +1,4 @@
-@mixin reset-text {
+﻿@mixin reset-text {
   font-family: $font-family-base;
   // We deliberately do NOT reset font-size or overflow-wrap / word-wrap.
   font-style: normal;
@@ -15,3 +15,4 @@
   white-space: normal;
   line-break: auto;
 }
+

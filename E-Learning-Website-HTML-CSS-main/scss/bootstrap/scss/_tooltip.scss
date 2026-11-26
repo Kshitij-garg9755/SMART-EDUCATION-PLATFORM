@@ -1,4 +1,4 @@
-// Base class
+﻿// Base class
 .tooltip {
   position: absolute;
   z-index: $zindex-tooltip;
@@ -113,3 +113,4 @@
   background-color: $tooltip-bg;
   @include border-radius($tooltip-border-radius);
 }
+

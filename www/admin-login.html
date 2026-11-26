@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Administrator Login | Kshitij Coder</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body { min-height: 100vh; display: grid; place-items: center; background: #f4f7fb; }
+        .admin-login { width: min(440px, calc(100% - 32px)); border: 0; border-radius: 18px; }
+        .admin-login .card-body { padding: 2rem; }
+        .admin-mark { color: #06bbcc; font-weight: 800; letter-spacing: .06em; }
+    </style>
+</head>
+<body>
+    <main class="card shadow admin-login">
+        <div class="card-body">
+            <p class="admin-mark mb-2">KHITIJ CODER</p>
+            <h1 class="h3 mb-2">Administrator sign in</h1>
+            <p class="text-muted mb-4">This portal is restricted to authorized administrators.</p>
+            <form id="admin-login-form">
+                <label class="form-label" for="email">Email address</label>
+                <input class="form-control mb-3" id="email" name="email" type="email" autocomplete="username" required>
+                <label class="form-label" for="password">Password</label>
+                <input class="form-control mb-4" id="password" name="password" type="password" autocomplete="current-password" required>
+                <button class="btn btn-primary w-100" type="submit">Sign in</button>
+                <p class="text-danger small mt-3 mb-0" id="login-error" role="alert"></p>
+            </form>
+            <a class="d-inline-block mt-3" href="/">Return to website</a>
+        </div>
+    </main>
+    <script src="js/api.js"></script>
+    <script>
+        (async function () {
+            try {
+                await KCAPI.api("/api/admin/auth/me");
+                window.location.replace("/admin.html");
+            } catch (_) {
+                document.getElementById("admin-login-form").addEventListener("submit", async function (event) {
+                    event.preventDefault();
+                    var error = document.getElementById("login-error");
+                    var button = this.querySelector("button[type=submit]");
+                    error.textContent = "";
+                    button.disabled = true;
+                    try {
+                        await KCAPI.api("/api/admin/auth/login", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                email: document.getElementById("email").value,
+                                password: document.getElementById("password").value
+                            })
+                        });
+                        window.location.replace("/admin.html");
+                    } catch (loginError) {
+                        error.textContent = loginError.message;
+                    } finally {
+                        button.disabled = false;
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

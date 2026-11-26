@@ -1,4 +1,4 @@
-.offcanvas {
+﻿.offcanvas {
   position: fixed;
   bottom: 0;
   z-index: $zindex-offcanvas;
@@ -75,3 +75,4 @@
 .offcanvas.show {
   transform: none;
 }
+

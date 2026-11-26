@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Private student-to-student messaging for Kshitij Coder.">
+    <script>
+        if (new URLSearchParams(window.location.search).get("widget") === "1") {
+            document.documentElement.classList.add("chat-embedded");
+        }
+    </script>
+    <title>Kshitij Chat : Kshitij Coder</title>
+    <link href="img/icon.png" rel="icon">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/chat.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-light bg-white shadow sticky-top px-3 px-md-4">
+        <a href="index.html" class="navbar-brand fw-bold mb-0"><img src="img/icon.png" alt="" height="42"> Kshitij <span style="color:#fb873f">Coder</span></a>
+        <a class="btn btn-outline-primary btn-sm" href="dashboard.html">Dashboard</a>
+    </nav>
+    <main class="chat-page">
+        <div class="chat-shell" id="chatShell">
+            <aside class="chat-sidebar">
+                <div class="chat-side-heading">
+                    <h1>KHITIJ <span>CHAT</span></h1>
+                    <input class="form-control chat-search" id="chatSearch" type="search" placeholder="Search contacts" aria-label="Search chat contacts">
+                </div>
+                <div class="chat-student-list" id="chatPeople" aria-label="Chat contacts"></div>
+            </aside>
+            <section class="chat-main" aria-label="Conversation">
+                <header class="chat-header">
+                    <button class="chat-back" id="chatBack" aria-label="Back to student list">‹</button>
+                    <div class="chat-avatar" id="chatPeerAvatar">K</div>
+                    <div>
+                        <h2 class="chat-header-name" id="chatPeerName">Select a contact</h2>
+                        <span class="chat-header-subtitle">Kshitij Coder account</span>
+                    </div>
+                </header>
+                <div class="chat-welcome" id="chatWelcome">
+                    <div><strong>Welcome to KHITIJ CHAT</strong>Select a student or admin to start a private conversation.</div>
+                </div>
+                <div class="chat-message-list" id="chatMessages" aria-live="polite" hidden></div>
+                <div class="chat-typing" id="chatTyping" aria-live="polite"></div>
+                <div class="chat-error" id="chatError" role="alert" hidden></div>
+                <form class="chat-compose" id="chatForm">
+                    <textarea class="form-control" id="chatInput" rows="1" maxlength="4000" placeholder="Type a message… (Enter to send, Shift+Enter for a new line)" aria-label="Message" required></textarea>
+                    <button class="chat-send" type="submit" aria-label="Send message">➤</button>
+                </form>
+            </section>
+        </div>
+    </main>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" crossorigin="anonymous"></script>
+    <script src="js/api.js"></script>
+    <script src="js/chat.js"></script>
+    <script>
+    (function () {
+        var observer = new MutationObserver(function () {
+            var active = document.getElementById("chatShell").classList.contains("conversation-open");
+            document.getElementById("chatWelcome").hidden = active;
+            document.getElementById("chatMessages").hidden = !active;
+        });
+        observer.observe(document.getElementById("chatShell"), {attributes: true, attributeFilter: ["class"]});
+    })();
+    </script>
+</body>
+</html>

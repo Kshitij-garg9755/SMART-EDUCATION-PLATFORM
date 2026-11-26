@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Secret Coder : Courses</title>
+    <title>Kshitij Coder : Courses</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -48,8 +48,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-            <p class="m-0 fw-bold" style="font-size: 25px;"><img src="img/icon.png" alt="" height="50px">Secret<span
-                    style="color: #fb873f;">Coder</span></p>
+            <p class="m-0 fw-bold" style="font-size: 25px;"><img src="img/icon.png" alt="" height="50px">Kshitij <span style="color: #fb873f;">Coder</span></p>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
             style="border: none;">
@@ -70,6 +69,7 @@
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
                 <a href="login.html" class="nav-item nav-link"><i class="fa fa-user"></i></a>
+                <a href="/admin" class="nav-item nav-link">Admin Login</a>
                 <a href="#" class="nav-item nav-link">
                     <div id="google_translate_element"></div>
                 </a>
@@ -197,9 +197,9 @@
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title bg-white text-center px-3">Popular Courses</h6>
-                <h1 class="mb-5" style="color: #fb873f;">Explore new and trending free online courses</h1>
+                <h1 class="mb-5" style="color: #fb873f;">Explore new and trending online courses</h1>
             </div>
-            <div class="row g-4 py-2">
+            <div class="row g-4 py-2" data-course-catalog>
                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="course-item shadow">
                         <div class="position-relative overflow-hidden text-light image">
@@ -225,7 +225,7 @@
                             <small class="flex-fill text-left p-2 px-2"><i class="fa fa-clock me-2"></i>2.0
                                 Hrs</small>
                             <small class="py-1 px-2 fw-bold fs-6 text-center">₹ 0</small>
-                            <small class=" text-primary py-1 px-2 fw-bold fs-6" style="float:right;"><a href="videos.html">Enroll
+                            <small class=" text-primary py-1 px-2 fw-bold fs-6" style="float:right;"><a href="courses-videos/videos.html">Enroll
                                     Now </a><i class="fa fa-chevron-right me-2 fs-10"></i></small>
                         </div>
                     </div>
@@ -595,7 +595,7 @@
                     <h4 class="text-white mb-3">Contact</h4>
                     <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, Jabalpur, Madhya Pradesh</p>
                     <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+91 8871368782</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>secretcoder@gmail.com</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>kshitijcoder@gmail.com</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
@@ -623,7 +623,7 @@
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="border-bottom" href="index.html">Secret Coder</a>, All Right Reserved.
+                        &copy; <a class="border-bottom" href="index.html">Kshitij Coder</a>, All Right Reserved.
 
                     </div>
                 </div>
@@ -647,25 +647,11 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script>
-window.onload = function() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-        document.body.insertAdjacentHTML('afterbegin', `<div class="alert alert-success text-center">Welcome, ${user.username}! Here are your courses:</div>`);
-    }
-
-    // All course links
-    document.querySelectorAll('.course-item a, .course-item h5 a').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Get course name
-            const courseName = this.textContent.trim();
-            localStorage.setItem('selectedCourse', courseName);
-            window.location.href = 'single.html';
-        });
-    });
-};
-</script>
+    <script src="js/api.js"></script>
+    <script src="js/course-catalog.js"></script>
 </body>
 
 </html>
+
+
+

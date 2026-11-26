@@ -1,6 +1,16 @@
 # Installed dependencies
 node_modules/
 **/node_modules/
+/www/_redirects
+/instance/
+/backend/instance/
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+*.py[cod]
+*.db
+*.sqlite
+*.sqlite3
 
 # Android / Gradle generated files
 android/.gradle/
@@ -15,3 +25,8 @@ android/.idea/
 .DS_Store
 Thumbs.db
 *.log
+
+# Local environment secrets
+.env
+.env.*
+!.env.example

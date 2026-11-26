@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
     "use strict";
 
     // Spinner
@@ -107,7 +107,12 @@
 
 })(jQuery);
 
+var chatWidgetScript = document.createElement("script");
+chatWidgetScript.src = "/js/chat-widget.js";
+document.body.appendChild(chatWidgetScript);
 
-
+var siteContentScript = document.createElement("script");
+siteContentScript.src = "/js/site-content.js";
+document.body.appendChild(siteContentScript);
 
 
